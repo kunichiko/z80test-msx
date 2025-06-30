@@ -3,8 +3,41 @@
 ; Copyright (C) 2012-2023 Patrik Rak (patrik@raxoft.cz)
 ;
 ; This source code is released under the MIT license, see included license.txt.
+            org     0x4000
 
-            org     0x8000
+            db      0x41    ; ID
+            db      0x42
+            db      0x10    ; INT
+            db      0x40
+            db      0x00    ; STATEMENT
+            db      0x00
+            db      0x00    ; DEVICE
+            db      0x00
+            db      0x00    ; TEXT
+            db      0x00
+            db      0x00    ; RESERVED
+            db      0x00
+            db      0x00
+            db      0x00
+            db      0x00
+            db      0x00
+
+msx_rom_int:
+            ld      hl,prog_start
+            ld      de,0x8000
+trans_loop:
+            ld      a,(hl)
+            ld      (de),a
+            inc     hl
+            inc     de
+            ld      a,H
+            sub     0x80
+            jp      m,trans_loop
+            jp      (0x8000)
+
+prog_start:
+
+            org    0x8000
 
 main:       di                                  ; disable interrupts
             push    iy                          ; preserve stuff needed by BASIC
@@ -21,6 +54,7 @@ main:       di                                  ; disable interrupts
 
             ld      bc,0                        ; setup for test loop
             ld      hl,testtable
+
             jr      .entry
 
 .loop       push    hl                          ; call the test wrapper

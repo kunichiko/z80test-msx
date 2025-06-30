@@ -7,7 +7,8 @@ PKG := $(NAME)-$(VERSION)
 PROGS := z80full z80flags z80doc z80docflags z80ccf z80memptr z80ccfscr
 SRCS  := main idea crctab tests testmacros print
 
-all: $(addsuffix .tap,$(PROGS))
+#all: $(addsuffix .tap,$(PROGS))
+all: $(addsuffix .out,$(PROGS))
 
 .DELETE_ON_ERROR: %.out
 
